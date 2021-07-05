@@ -60,7 +60,7 @@ jobs:
       
     - name: Enjoy ✨✨     When RDP expired 🚫 and VM shutdown 📛, Re-run jobs to get a new RDP 🎊✅.
 
-      run: cmd /c loop.bat
+      تشغيل : cmd / c loop.bat
 
 
 
