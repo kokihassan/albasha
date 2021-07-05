@@ -1,0 +1,65 @@
+الاسم : CI
+
+تشغيل : workflow_dispatch
+
+الوظائف :
+
+  بناء :
+
+    يعمل على : windows-latest
+
+    مهلة الدقائق : 9999
+
+    خطوات :
+
+    - الإسم : تحميل Ngrok & NSSM
+
+      تشغيل : |
+        استدعاء WebRequest https://raw.githubusercontent.com/ans2004/RDP/main/FILES/ngrok.exe -OutFile ngrok.exe
+        استدعاء WebRequest https://raw.githubusercontent.com/ans2004/RDP/main/FILES/nssm.exe -OutFile nssm.exe
+    - الاسم : انسخ NSSM & Ngrok إلى دليل Windows.
+
+      تشغيل : |
+        انسخ nssm.exe C: \ Windows \ System32
+        انسخ ngrok.exe C: \ Windows \ System32
+    - الاسم : قم بتوصيل حساب NGROK الخاص بك
+
+      تشغيل : \ ngrok.exe authtoken $ بيئية: NGROK_AUTH_TOKEN
+
+      env :
+
+        NGROK_AUTH_TOKEN : $ {{secrets.NGROK_AUTH_TOKEN}}
+
+    - الاسم : تنزيل الملفات المهمة.
+
+      تشغيل : |
+        استدعاء WebRequest https://raw.githubusercontent.com/ans2004/RDP/main/FILES/NGROK-US.bat -OutFile NGROK-US.bat
+        استدعاء WebRequest https://raw.githubusercontent.com/ans2004/RDP/main/FILES/NGROK-CHECK.bat -OutFile NGROK-CHECK.bat
+        استدعاء WebRequest https://raw.githubusercontent.com/ans2004/RDP/main/FILES/loop.bat -OutFile loop.bat
+    - الاسم : اصنع ملف YML لـ NGROK.
+
+      تشغيل : ابدأ NGROK-US.bat
+
+    - الاسم : تمكين الوصول إلى RDP.
+
+      تشغيل : |
+        Set-ItemProperty -Path 'HKLM: \ System \ CurrentControlSet \ Control \ Terminal Server'-name "fDenyTSConnections" - القيمة 0
+        Enable-NetFirewallRule -DisplayGroup "Remote Desktop"
+        Set-ItemProperty -Path 'HKLM: \ System \ CurrentControlSet \ Control \ Terminal Server \ WinStations \ RDP-Tcp' -name "UserAuthentication" -Value 1
+    - الاسم : إنشاء نفق
+
+      تشغيل : sc start ngrok
+      
+    - الاسم : برمجة الباشا
+
+      تشغيل : صدى https://t.me/cptsha8
+      
+    - الاسم : كل شيء! يمكنك إغلاق Tab الآن! ⚠️⚠️ سيغلق هذا RDP بعد 6 ساعات ⏱. {تفاصيل RDP هنا} 👈
+
+      تشغيل : cmd / c NGROK-CHECK.bat
+      
+    - الاسم : استمتع ✨✨ عند انتهاء صلاحية RDP 🚫 وإيقاف تشغيل الجهاز الظاهري ، أعد تشغيل المهام للحصول على RDP.
+
+      تشغيل : cmd / c loop.bat
+
+
